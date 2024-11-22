@@ -207,7 +207,7 @@ function reporteHerramienta() {
 }
 
 function impHerramientaSelec() {
-  /*  window.open("vista/reportes/repHerramientaSelec.php", '_blank'); */
+
   $("#modal-xl").modal("show")
   var formData = new FormData($("#FormHerramientaSeleccionado")[0]);
 
@@ -219,10 +219,9 @@ function impHerramientaSelec() {
     contentType: false,
     processData: false,
     success: function (data) {
-      /* $("#repHerramientas").html(data) */
+
       $("#content-xl").html(data)
-      console.log(data);
-      /* $$('#button').each(function(link) { button.onclick = function(){ window.open("newpage.html",'New Window'); return false; }; }); */
+
     }
   })
 }
@@ -314,7 +313,7 @@ function MDatosImpresion() {
     url: "vista/VControlHerramientas.php",
     data: obj,
     success: function (data) {
-     
+
     }
   })
 
@@ -538,6 +537,24 @@ function MVerLogDevCalibrada(id) {
   })
 }
 
+//reporte mayor de prestamos por tecnico
+function reportePresTecnico(){
 
+  var formData = new FormData($("#ReportePresTecnico")[0])
+
+  $.ajax({
+    type: "POST",
+    url: "controlador/controlherramientasControlador.php?ctrRepPresTecnico",
+    data: formData,
+    cache: false,
+    contentType: false,
+    processData: false,
+    success: function (data) {
+      $("#repPrestamosTecnico").html(data)
+      //console.log(data);
+    }
+
+  })
+}
 
 

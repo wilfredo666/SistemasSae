@@ -48,6 +48,7 @@ function habilitado($idPermiso)
                 <li><a href="VInforme" class="dropdown-item">Informe Reporte</a></li>
                 <li><a href="VLogCalibradas" class="dropdown-item">Log Herramientas Calibradas</a></li>
                 <li><a href="VLogDevCalibradas" class="dropdown-item">Log Devolucion Calibradas</a></li>
+                <li><a href="VRepTecnico" class="dropdown-item">Reporte por tecnico</a></li>
               </ul>
             </li>
             <?php } ?>

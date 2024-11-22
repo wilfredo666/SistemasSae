@@ -1,5 +1,5 @@
 <?php
-require "conexion.php";
+require_once "conexion.php";
 
 class ModeloUsuario {
 
@@ -47,7 +47,7 @@ class ModeloUsuario {
     $stmt->null;
   }
 
-  static public function mdlInfoUsuario( $id ) {
+  static public function mdlInfoUsuario($id) {
     $stmt = Conexion::conectar()->prepare( "select * from usuario where id_usuario=$id" );
     $stmt->execute();
 

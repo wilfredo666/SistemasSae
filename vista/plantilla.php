@@ -91,6 +91,7 @@
           $_GET["ruta"] == "VInventarioHangar" ||
           $_GET["ruta"] == "VerArchivos" ||
           $_GET["ruta"] == "descargar" ||
+          $_GET["ruta"] == "VRepTecnico" ||
           $_GET["ruta"] == "salir" ) {
         $ruta=$_GET["ruta"].".php";
 

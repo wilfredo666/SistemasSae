@@ -12,6 +12,7 @@ if (isset($ruta["query"])) {
     $ruta["query"] == "ctrDevolucionHerramienta" ||
     $ruta["query"] == "ctrRegLogHerramientasCalibradas" ||
     $ruta["query"] == "ctrDevolucionHerrCalibrada" ||
+    $ruta["query"] == "ctrRepPresTecnico" ||
     $ruta["query"] == "ctrEliControlHerramienta"
   ) {
     $metodo = $ruta["query"];
@@ -28,14 +29,14 @@ class ControladorHerramientas
     $respuesta = ModeloControlHerramientas::mdlInfoControlHerramientas();
     return $respuesta;
   }
-  
+
   //por filtro por fechas
   static public function ctrInfoControlHerramientasFiltrado($rangoFecha)
   {
     $respuesta = ModeloControlHerramientas::mdlInfoControlHerramientasFiltrado($rangoFecha);
     return $respuesta;
   }
-  
+
   //por ubicacion
   static public function ctrInfoControlHerramientasUbic()
   {
@@ -218,33 +219,34 @@ class ControladorHerramientas
     foreach ($respuesta as $value) {
 ?>
 
-      <tr>
-        <td><?php echo $value["id_controlherramientas"]; ?></td>
-        <td><?php echo $value["descripcion_controlherramientas"]; ?></td>
-        <td><?php echo $value["pn_controlherramientas"]; ?></td>
-        <td><?php echo $value["numserie_controlherramientas"]; ?></td>
-        <td><?php echo $value["codigo_controlherramientas"]; ?></td>
-        <td><?php echo $value["fechacali_controlherramientas"]; ?></td>
-        <td><?php echo $value["fechavenci_controlherramientas"]; ?></td>
-        <td><?php echo $value["ubicacion_controlherramientas"]; ?></td>
-        <td><?php echo $value["numcarpeta_controlherramientas"]; ?></td>
-      </tr>
+<tr>
+  <td><?php echo $value["id_controlherramientas"]; ?></td>
+  <td><?php echo $value["descripcion_controlherramientas"]; ?></td>
+  <td><?php echo $value["pn_controlherramientas"]; ?></td>
+  <td><?php echo $value["numserie_controlherramientas"]; ?></td>
+  <td><?php echo $value["codigo_controlherramientas"]; ?></td>
+  <td><?php echo $value["fechacali_controlherramientas"]; ?></td>
+  <td><?php echo $value["fechavenci_controlherramientas"]; ?></td>
+  <td><?php echo $value["ubicacion_controlherramientas"]; ?></td>
+  <td><?php echo $value["numcarpeta_controlherramientas"]; ?></td>
+</tr>
 
 
-    <?php
+<?php
 
-    }
-    ?>
-    <script>
-      $(function() {
-        $("#DataTableHerramientas").DataTable({
-          "responsive": true,
-          "lengthChange": false,
-          "autoWidth": false,
-        }).buttons().container().appendTo('#DataTableHerramientas_wrapper .col-md-6:eq(0)');
+                                   }
+?>
 
-      });
-    </script>
+<script>
+  $(function() {
+    $("#DataTableHerramientas").DataTable({
+      "responsive": true,
+      "lengthChange": false,
+      "autoWidth": false,
+    }).buttons().container().appendTo('#DataTableHerramientas_wrapper .col-md-6:eq(0)');
+
+  });
+</script>
 <?php
   }
 
@@ -455,8 +457,86 @@ class ControladorHerramientas
   }
 
   static public function ctrInfoLogCalibrada($value)
-    {
-        $respuesta = ModeloControlHerramientas::mdlInfoLogCalibrada($value);
-        return $respuesta;
-    }
+  {
+    $respuesta = ModeloControlHerramientas::mdlInfoLogCalibrada($value);
+    return $respuesta;
+  }
+
+
+  //de control herramientas.js ->reportePresTecnico | para reporte mayor por tecnico
+  static public function ctrRepPresTecnico(){
+    require "../modelo/controlherramientasModelo.php";
+
+    $nomTecnico = $_POST["nomTecnico"];
+    $data = array(
+      "nomTecnico" => $nomTecnico
+    );
+
+    //funcion que trae de la tabla mayor_herramientascalibradas
+    $respuesta = ModeloControlHerramientas::mdlRepPresTecnico($data);
+    foreach ($respuesta as $value) {
+?>
+
+<tr>
+  <td><?php echo $value["tecnico_nombre"]; ?></td>
+  <td><?php echo $value["usuario_nombre"]; ?></td>
+  <td><?php echo $value["cliente"]; ?></td>
+  <td><?php echo $value["fecha_hora"]; ?></td>
+  <td><?php echo $value["estado"]; ?></td>
+</tr>
+
+
+<?php
+
+                                   }
+    //funcion que trae de la tabla log_herramientas
+    $respuesta_lh = ModeloControlHerramientas::mdlRepPresTecnicoLh($data);
+    foreach ($respuesta_lh as $value) {
+?>
+
+<tr>
+  <td><?php echo $value["tecnico_nombre"]; ?></td>
+  <td><?php echo $value["usuario_nombre"]; ?></td>
+  <td><?php echo $value["empresa_aeronave"]; ?></td>
+  <td><?php echo $value["fecha_hora"]; ?></td>
+  <td><?php echo $value["tipo"]; ?></td>
+</tr>
+
+
+<?php
+
+                                      }
+?>
+<script>
+  $(function() {
+    $("#DataTableHerramientas").DataTable({
+      "responsive": true,
+      "lengthChange": false,
+      "autoWidth": false,
+    }).buttons().container().appendTo('#DataTableHerramientas_wrapper .col-md-6:eq(0)');
+
+  });
+</script>
+<?php
+  }
+
+  //reportePresTecnico | para reporte mayor por tecnico en pdf
+  static public function ctrRepPresTecnicoPdf($id){
+    $tecnico=array(
+      "nomTecnico"=>$id
+    );
+    
+    //funcion que trae de la tabla mayor_herramientascalibradas
+    $respuesta = ModeloControlHerramientas::mdlRepPresTecnico($tecnico);
+    //funcion que trae de la tabla log_herramientas
+    $respuesta_lh = ModeloControlHerramientas::mdlRepPresTecnicoLh($tecnico);
+
+    $data=array(
+      "calibradas"=>$respuesta,
+      "log"=>$respuesta_lh
+    );
+    return $data;
+  }
+
+
 }

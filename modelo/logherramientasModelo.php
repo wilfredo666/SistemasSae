@@ -23,10 +23,10 @@ class ModeloLogHerramientas
     static public function mdlRegLogHerramienta($data)
     {
 
-        $nomLog = $data["nomLog"];
+        $nomLog = $data["nomLog"];//tecnico que al que se le presta
         $observacionesLog = $data["observacionesLog"];
         $nomServicio = $data["nomServicio"];
-        $idUsuarioLog = $data["idUsuario"];
+        $idUsuarioLog = $data["idUsuario"];//usuario que presta/que esta usando el sistema
         $detalle = $data["detalle"];
 
         $detalle = json_encode($detalle);

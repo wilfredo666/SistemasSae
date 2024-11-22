@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-5">
-          <h3 class="m-0">Reporte por Herramientas</h3>
+          <h3 class="m-0">Reporte de Tecnicos</h3>
         </div><!-- /.col -->
 
       </div><!-- /.row -->
@@ -15,33 +15,32 @@
 
       </div><!-- /.col -->
       <div class="col-sm-7 row">
-        <form id="ReporteDeHerramientas">
+        <form id="ReportePresTecnico">
           <div class="form-group col-sm-12">
             <div class="input-group mb-0">
               <div class="input group-prepend">
-                <span class="input-group-text">Por Ubicación: </span>
+                <span class="input-group-text">Por Tecnico: </span>
               </div>
 
-              <select class="form-control input-group-append" name="nomHerramienta" id="nomHerramienta">
-                <option value="">-- Seleccionar --</option>
-                <option value="Todos">T O D O S</option>
+              <select class="form-control" name="nomTecnico" id="nomTecnico">
+               <option value="todos">TODOS</option>
                 <?php
-                $herra = ControladorHerramientas::ctrInfoControlHerramientasUbic();
-                foreach ($herra as $value) {
-
-                  $ubicacionHerramienta = $value["ubicacion_controlherramientas"];
+                require_once "./controlador/usuarioControlador.php";
+                require_once "./modelo/usuarioModelo.php";
+                $usuarios = ControladorUsuario::ctrInfoUsuarios();
+                foreach ($usuarios as $value) {
                 ?>
-                <option value="<?php echo $ubicacionHerramienta ?>"> <?php echo $ubicacionHerramienta ?> </option>
+                <option value="<?php echo $value["id_usuario"]; ?>"><?php echo $value["nombre_usuario"]; ?></option>
                 <?php
                 }
                 ?>
               </select>
               <div class="input-group-append">
-                <button type="button" class="btn btn-navbar bg-secondary" onclick="reporteHerramienta();">
+                <button type="button" class="btn btn-navbar bg-secondary" onclick="reportePresTecnico();">
                   <i class="fas fa-search "></i>
                 </button>
               </div>
-              <a id="link" style="margin-left: 10px;" class="btn btn-success" href="" target="_blank"><i class="fas fa-print">Imprimir</i></a>
+              <a id="impRepTecnico" style="margin-left: 10px;" class="btn btn-success" href="" target="_blank"><i class="fas fa-print">Imprimir</i></a>
             </div>
           </div>
         </form>
@@ -54,18 +53,15 @@
       <table id="DataTableHerramientas" class="table table-bordered table-striped">
         <thead>
           <tr>
-            <th>ITEM</th>
-            <th>DESCRIPCION</th>
-            <th>NRO DE PARTE</th>
-            <th>NRO DE SERIE</th>
-            <th>CODIGO</th>
-            <th>FECHA CAL.</th>
-            <th>FECHA VEN</th>
-            <th>UBICACION</th>
-            <th>N° CARPETA</th>
+            <th>Tecnico</th>
+            <th>Prestamista</th>
+            <th>Aeronave</th>
+            <th>Fecha y hora</th>
+            <th>Tipo</th>
+
           </tr>
         </thead>
-        <tbody id="repHerramientas">
+        <tbody id="repPrestamosTecnico">
 
         </tbody>
       </table>
@@ -76,8 +72,8 @@
 <!-- /.content-wrapper -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>
-  $('#nomHerramienta').on('change', function() {
+  $('#nomTecnico').on('change', function() {
     var valor_seleccionado = this.value;
-    $("#link").attr("href", "vista/reportes/repHerramientasUbicacion.php?id=" + valor_seleccionado);
+    $("#impRepTecnico").attr("href", "vista/reportes/repPrestamosTecnico.php?idTec=" + valor_seleccionado);
   })
 </script>

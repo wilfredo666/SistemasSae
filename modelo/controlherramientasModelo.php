@@ -270,8 +270,7 @@ class ModeloControlHerramientas
       $stmt->close();
       $stmt->null;
     } else {
-      $stmt = Conexion::conectar()->prepare("select * from control_herramientas
-      where ubicacion_controlherramientas='$data'");
+      $stmt = Conexion::conectar()->prepare("select * from control_herramientas where ubicacion_controlherramientas='$data'");
       $stmt->execute();
       return $stmt->fetchAll();
       $stmt->close();
@@ -539,4 +538,107 @@ class ModeloControlHerramientas
     $stmt->close();
     $stmt->null;
   }
+
+
+  static public function mdlRepPresTecnico($data){
+    $nom = $data["nomTecnico"];
+    if ($nom == "todos") {
+      $stmt = Conexion::conectar()->prepare("SELECT
+    mh.id_mayor_herramientascalibradas,
+    mh.fecha_hora, 
+    tu.nombre_usuario AS tecnico_nombre, 
+    uu.nombre_usuario AS usuario_nombre, 
+    sr.cliente,
+    mh.detalle,
+    mh.estado
+FROM 
+    mayor_herramientascalibradas mh
+JOIN 
+    usuario tu ON mh.tecnico = tu.id_usuario
+JOIN 
+    usuario uu ON mh.usuario = uu.id_usuario
+JOIN
+	servicios sr ON mh.id_servicio = sr.id_servicio");
+      $stmt->execute();
+      return $stmt->fetchAll();
+      $stmt->close();
+      $stmt->null;
+    } else {
+      $stmt = Conexion::conectar()->prepare("SELECT
+	mh.id_mayor_herramientascalibradas,
+    mh.fecha_hora, 
+    tu.nombre_usuario AS tecnico_nombre, 
+    uu.nombre_usuario AS usuario_nombre, 
+    sr.cliente,
+    mh.detalle,
+    mh.estado
+FROM 
+    mayor_herramientascalibradas mh
+JOIN 
+    usuario tu ON mh.tecnico = tu.id_usuario
+JOIN 
+    usuario uu ON mh.usuario = uu.id_usuario
+JOIN
+	servicios sr ON mh.id_servicio = sr.id_servicio
+WHERE
+	tecnico=$nom");
+      $stmt->execute();
+      return $stmt->fetchAll();
+      $stmt->close();
+      $stmt->null;
+    }
+  }
+
+  static public function mdlRepPresTecnicoLh($data){
+    $nom = $data["nomTecnico"];
+    if ($nom == "todos") {
+      $stmt = Conexion::conectar()->prepare("SELECT
+      lh.codigo_herramientas,
+    lh.id_log_herramientas,
+    lh.fecha_hora, 
+    tu.nombre_usuario AS tecnico_nombre, 
+    uu.nombre_usuario AS usuario_nombre, 
+    ar.empresa_aeronave, 
+    lh.tipo
+FROM 
+    log_herramientas lh
+JOIN 
+    usuario tu ON lh.nombre_usuario = tu.id_usuario
+JOIN 
+    usuario uu ON lh.id_usuarioLog = uu.id_usuario
+JOIN
+	aeronaves ar ON lh.empresa_aeronave = ar.id_aeronave");
+      $stmt->execute();
+      return $stmt->fetchAll();
+      $stmt->close();
+      $stmt->null;
+    } else {
+      $stmt = Conexion::conectar()->prepare("SELECT
+      lh.codigo_herramientas,
+    lh.id_log_herramientas,
+    lh.fecha_hora, 
+    tu.nombre_usuario AS tecnico_nombre, 
+    uu.nombre_usuario AS usuario_nombre, 
+    ar.empresa_aeronave, 
+    lh.tipo
+FROM 
+    log_herramientas lh
+JOIN 
+    usuario tu ON lh.nombre_usuario = tu.id_usuario
+JOIN 
+    usuario uu ON lh.id_usuarioLog = uu.id_usuario
+JOIN
+	aeronaves ar ON lh.empresa_aeronave = ar.id_aeronave
+WHERE
+	lh.nombre_usuario=$nom");
+      $stmt->execute();
+      return $stmt->fetchAll();
+      $stmt->close();
+      $stmt->null;
+    }
+  }
+
+
+
 }
+
