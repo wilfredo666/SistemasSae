@@ -13,6 +13,9 @@ if (isset($ruta["query"])) {
     $ruta["query"] == "ctrRegLogHerramientasCalibradas" ||
     $ruta["query"] == "ctrDevolucionHerrCalibrada" ||
     $ruta["query"] == "ctrRepPresTecnico" ||
+    $ruta["query"] == "ctrBusHerramienta" ||
+    $ruta["query"] == "ctrRegPrestamoExt" ||
+    $ruta["query"] == "ctrEliPrestamoExt" ||
     $ruta["query"] == "ctrEliControlHerramienta"
   ) {
     $metodo = $ruta["query"];
@@ -525,7 +528,7 @@ class ControladorHerramientas
     $tecnico=array(
       "nomTecnico"=>$id
     );
-    
+
     //funcion que trae de la tabla mayor_herramientascalibradas
     $respuesta = ModeloControlHerramientas::mdlRepPresTecnico($tecnico);
     //funcion que trae de la tabla log_herramientas
@@ -538,5 +541,52 @@ class ControladorHerramientas
     return $data;
   }
 
+  //para accedera a tabla virual vista_herramientas
+  static public function ctrInfoVistaHerramientas(){
+    $respuesta = ModeloControlHerramientas::mdlInfoVistaHerramientas();
+    return $respuesta;
+  }
 
+  static public function ctrInfoPrestamosExternos(){
+    $respuesta = ModeloControlHerramientas::mdlInfoPrestamosExternos();
+    return $respuesta;
+  }
+
+  //para encontrar informacion de una herramienta segun su numero de carpeta
+  //de herramientas.js
+  static public function ctrBusHerramienta(){
+    require "../modelo/controlherramientasModelo.php";
+    $numCarp=$_POST["numCarp"];
+    $respuesta = ModeloControlHerramientas::mdlBusHerramienta($numCarp);
+    echo json_encode($respuesta);
+  }
+
+  //para registrar prestamo externo | de herramientas.js ->emitirPrestamoExterno()
+  static public function ctrRegPrestamoExt(){
+    require "../modelo/controlherramientasModelo.php";
+
+    $data=$_POST;
+    echo $respuesta = ModeloControlHerramientas::mdlRegPrestamoExt($data);
+
+  }
+  
+  static public function ctrInfoPrestamoExt($id){
+    $respuesta = ModeloControlHerramientas::mdlInfoPrestamoExt($id);
+    return $respuesta;
+  }
+  
+  static public function ctrEliPrestamoExt(){
+    require "../modelo/controlherramientasModelo.php";
+   $data = $_POST["id"];
+
+    $respuesta = ModeloControlHerramientas::mdlEliPrestamoExt($data);
+
+    echo $respuesta;
+  }
+  
+  static public function ctrInfoControlHerramientaPE($numCar){
+    //adquiriendo info para prestamo externos segun su numero de carpeta
+    $respuesta = ModeloControlHerramientas::mdlInfoControlHerramientaPE($numCar);
+    return $respuesta;
+  }
 }

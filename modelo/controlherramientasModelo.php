@@ -638,7 +638,94 @@ WHERE
     }
   }
 
+  //consulta a tabla virual vista_herramientas
+  static public function mdlInfoVistaHerramientas(){
+    $stmt = Conexion::conectar()->prepare("SELECT * FROM vista_herramientas");
+    $stmt->execute();
+    return $stmt->fetchAll();
+    $stmt->close();
+    $stmt->null;
+  }
 
+  static public function mdlInfoPrestamosExternos(){
+    $stmt = Conexion::conectar()->prepare("SELECT id_prestamos_ext,nombre_empleado,nombre_empresa,fecha_prestamo,estado_prestamo,estado_prestamo, nombre_usuario FROM prestamos_externos JOIN usuario ON usuario.id_usuario=prestamos_externos.id_usuario_presta");
+    $stmt->execute();
+    return $stmt->fetchAll();
+    $stmt->close();
+    $stmt->null;
+  }
+
+  static public function mdlBusHerramienta($numCarp){
+    $stmt = Conexion::conectar()->prepare("SELECT * FROM vista_herramientas where numcarpeta='$numCarp'");
+    $stmt->execute();
+
+    return $stmt->fetch();
+
+    $stmt->close();
+    $stmt->null;
+  }
+
+  static public function mdlRegPrestamoExt($data){
+    session_start();
+
+    $nomEmpleado=$_POST["nomEmpleado"];
+    $cargoEmple=$_POST["cargoEmple"];
+    $ciEmpleado=$_POST["ciEmpleado"];
+    $telEmpleado=$_POST["telEmpleado"];
+    $nomEmpresa=$_POST["nomEmpresa"];
+    $dirEmpleado=$_POST["dirEmpleado"];
+    $fechaPrestamo=$_POST["fechaPrestamo"];
+    $arregloCarritoPE=$_POST["arregloCarritoPE"];
+    $observacionPE=$_POST["observacionPE"];
+    $idUsuario=$_SESSION["id"];
+
+    $stmt = Conexion::conectar()->prepare("INSERT INTO prestamos_externos(nombre_empleado, cargo_empleado, nombre_empresa, ci_empleado, telefono_empleado, direccion_empleado, detalle_prestamo, fecha_prestamo, observacion, id_usuario_presta) VALUES ('$nomEmpleado','$cargoEmple','$nomEmpresa','$ciEmpleado','$telEmpleado','$dirEmpleado','$arregloCarritoPE','$fechaPrestamo','$observacionPE','$idUsuario')");
+
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+    $stmt->close();
+    $stmt->null;
+
+  }
+
+  static public function mdlInfoPrestamoExt($id){
+    $stmt = Conexion::conectar()->prepare("SELECT id_prestamos_ext, nombre_empleado, cargo_empleado, nombre_empresa, ci_empleado, telefono_empleado, direccion_empleado, detalle_prestamo, fecha_prestamo, observacion, id_usuario_presta, estado_prestamo, u.nombre_usuario FROM prestamos_externos
+JOIN usuario u
+ON u.id_usuario=prestamos_externos.id_usuario_presta
+WHERE id_prestamos_ext=$id");
+    $stmt->execute();
+
+    return $stmt->fetch();
+
+    $stmt->close();
+    $stmt->null;
+  }
+
+  static public function mdlEliPrestamoExt($id){
+
+    $stmt = Conexion::conectar()->prepare("UPDATE prestamos_externos SET estado_prestamo=0 where id_prestamos_ext=$id");
+
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+    $stmt->close();
+    $stmt->null;
+  }
+
+  static public function mdlInfoControlHerramientaPE($numCar){
+    $stmt = Conexion::conectar()->prepare("SELECT * FROM vista_herramientas WHERE numcarpeta= '$numCar'");
+    $stmt->execute();
+
+    return $stmt->fetch();
+
+    $stmt->close();
+    $stmt->null;
+  }
 
 }
 

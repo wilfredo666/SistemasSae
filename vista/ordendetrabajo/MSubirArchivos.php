@@ -83,7 +83,6 @@ if(isset($_GET["numOrden"])){
 
 <script src="assest/plugins/dropzone/min/dropzone.min.js"></script>
 
-
 <script>
   // DropzoneJS Demo Code Start
   Dropzone.autoDiscover = false;

@@ -161,6 +161,16 @@ Seccion  de Modals
   });
 
   $(function() {
+    $("#DataTableDefault").DataTable({
+      "responsive": true,
+      "lengthChange": false,
+      "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print"]
+    }).buttons().container().appendTo('#DataTableDefault_wrapper .col-md-6:eq(0)');
+
+  });
+
+  $(function() {
     $("#DataTablePanelAdmin").DataTable({
       "responsive": true,
       "lengthChange": false,
@@ -395,16 +405,50 @@ Seccion  de Modals
     theme: 'bootstrap4'
   })
 
-/*  $(function () {
+  /*  $(function () {
     //Date picker
     $('#reservationdate').datetimepicker({
       format: 'L'
     });
   })*/
-      //Date range picker
-    $('#reservation').daterangepicker()
+  //Date range picker
+  $('#reservation').daterangepicker()
 </script>
 
+<script>
+  //prestamos a externos
+  $(function() {
+    $.validator.setDefaults({
+      submitHandler: function() {
+        emitirPrestamoExterno()
+      }
+    });
+    $("#FormRegPrestamoExt").validate({
+      rules: {
+        nomEmpleado: "required",
+        ciEmpleado: "required",
+        nomEmpresa: "required",
+        fechaPrestamo: "required"
+      },
+
+      errorElement: "span",
+      errorPlacement: function(error, element) {
+        error.addClass("invalid-feedback")
+        element.closest(".input-group").append(error)
+      },
+      //destacar
+      highlight: function(element, errorClass, validClass) {
+        $(element).addClass("is-invalid")
+      },
+
+      //desmarcar
+      unhighlight: function(element, errorClass, validClass) {
+        $(element).removeClass("is-invalid")
+      }
+
+    })
+  })
+</script>
 <!-- jquery-validation -->
 <script src="assest/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="assest/plugins/jquery-validation/additional-methods.min.js"></script>

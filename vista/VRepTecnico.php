@@ -23,6 +23,7 @@
               </div>
 
               <select class="form-control" name="nomTecnico" id="nomTecnico">
+               <option value="">-SELECCIONAR-</option>
                <option value="todos">TODOS</option>
                 <?php
                 require_once "./controlador/usuarioControlador.php";
