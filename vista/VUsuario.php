@@ -25,8 +25,8 @@
             <th>Fecha Creacion</th>
             <th>Estado</th>
             <td>
-             <?php if(habilitado(2)!=null){
-            ?>
+              <?php if(habilitado(2)!=null){
+              ?>
               <button class="btn btn-primary" onclick="MNuevoUsuario()">Agregar Usuario</button>
               <?php }?>
             </td>
@@ -59,6 +59,10 @@
                 <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"></button>
 
                 <ul class="dropdown-menu">
+                 
+                  <li><span href="" class="dropdown-item" onclick="MSubirArchUsuario('<?php echo $value["id_usuario"];?>')" style="cursor:pointer;">Subir archivos</span></li>
+
+                  <li><a href="galeriaUsuario?<?php echo $value["id_usuario"];?>" class="dropdown-item" target="_blank">Galeria</a></li>
 
                   <li>
                     <a href="permisos?<?php echo $value["id_usuario"];?>" class="dropdown-item" target="_blank">Permisos</a>

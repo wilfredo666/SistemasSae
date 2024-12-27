@@ -726,6 +726,18 @@ WHERE id_prestamos_ext=$id");
     $stmt->close();
     $stmt->null;
   }
+  
+  static public function mdlEliHerrCalibrada($id){
+    $stmt = Conexion::conectar()->prepare("DELETE FROM mayor_herramientascalibradas WHERE id_mayor_herramientascalibradas=$id");
+
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+    $stmt->close();
+    $stmt->null;
+  }
 
 }
 

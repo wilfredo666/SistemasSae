@@ -76,6 +76,9 @@
                   <button class="btn btn-warning" onclick="MDevolucionHerrCalibrada(<?php echo $value['id_mayor_herramientascalibradas']; ?>)" <?php if ($tipoAcm == 0) : ?>disabled<?php endif; ?>>
                     <i class="fas fa-sign-out-alt"></i>
                   </button>
+                  <button class="btn btn-danger" onclick="MEliHerrCalibrada(<?php echo $value['id_mayor_herramientascalibradas']; ?>)">
+                    <i class="fas fa-trash"></i>
+                  </button>
                 </div>
               </td>
             </tr>

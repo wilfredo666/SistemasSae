@@ -3,7 +3,15 @@
 global $archivo;
 global $numOrden;
 $archivo = $_GET['archivo'];
-$numOrden = $_GET['numOrden'];
+
+if(isset($_GET['numOrden'])){
+  $numOrden = $_GET['numOrden'];
+  $ruta= "../assest/files/archivos/ordenTrabajo/". $numOrden."/".$archivo;
+}else if(isset($_GET['email'])){
+  $email = $_GET['email'];
+  $ruta= "../assest/dist/files/archivos/". $email."/".$archivo;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,7 +67,7 @@ $numOrden = $_GET['numOrden'];
   <script src="../assest/pdfjs-3.11.174-legacy-dist/build/pdf.js"></script>
   
   <script>
-    <?php $archivos = "../assest/files/archivos/ordenTrabajo/". $numOrden."/".$archivo; ?>
+    <?php $archivos = $ruta; ?>
     
     console.log('Ruta del archivo PDF:', '<?= $archivos; ?>');
     const pdf = '<?= $archivos; ?>';

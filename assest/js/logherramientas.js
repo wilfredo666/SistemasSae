@@ -75,7 +75,7 @@ function RegLogHerramientas() {
     contentType: false,
     processData: false,
     success: function (datos) {
-      console.log(datos);
+
       if (datos == "ok") {
         Swal.fire({
           toast: true,
@@ -204,5 +204,44 @@ function MVerLogDevolucion(id){
          $("#content-lg").html(data)
      }
  })
+}
+
+function MEliHerramientas(id){
+    var obj = {
+    id: id
+  }
+
+  Swal.fire({
+    title: 'Esta seguro de eliminar este registro?',
+    showDenyButton: true,
+    showCancelButton: false,
+    confirmButtonText: 'Confirmar',
+    denyButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "POST",
+        data: obj,
+        url: "controlador/logherramientasControlador.php?ctrEliLogHerramientas",
+        success: function (data) {
+          
+          if (data == "ok") {
+            setTimeout(function () {
+              location.reload()
+            }, 1200)
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error!!!',
+              text: 'El registro no puede ser eliminado',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          }
+          
+        }
+      })
+    }
+  })
 }
 

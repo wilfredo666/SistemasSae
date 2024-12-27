@@ -55,8 +55,9 @@
     if(isset($_GET["ruta"])){
       include "vista/asideMenu.php";
       //usuario
-      if($_GET["ruta"]=="permisos"){
-        $ruta="usuario/permisos.php";
+      if($_GET["ruta"]=="permisos" ||
+         $_GET["ruta"]=="galeriaUsuario"){
+        $ruta="usuario/".$_GET["ruta"].".php";
       }
 
       if ( $_GET["ruta"] == "panelAdmin" ||

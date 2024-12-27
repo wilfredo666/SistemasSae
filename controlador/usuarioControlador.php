@@ -7,6 +7,7 @@ if ( isset( $ruta["query"] ) ) {
       $ruta["query"] == "ctrEditUsuario" ||
       $ruta["query"] == "ctrEliUsuario"||
       $ruta["query"] == "ctrRegRegistrosUsuarios"||
+      $ruta["query"] == "ctrEliArchivo"||
       $ruta["query"] == "ctrActualizarPermiso"
      ){
     $metodo = $ruta["query"];
@@ -140,23 +141,36 @@ class ControladorUsuario {
 
   static public function ctrActualizarPermiso(){
     require "../modelo/usuarioModelo.php";
-    
+
     $data=array(
-    "idUsuario"=>$_POST["idUsuario"],
-    "idPermiso"=>$_POST["idPermiso"]
+      "idUsuario"=>$_POST["idUsuario"],
+      "idPermiso"=>$_POST["idPermiso"]
     );
-    
+
     $respuesta = ModeloUsuario::mdlActualizarPermiso( $data );
     echo $respuesta;
   }
- static public function ctrRegRegistrosUsuarios(){
-        require_once "../modelo/usuarioModelo.php";
+  static public function ctrRegRegistrosUsuarios(){
+    require_once "../modelo/usuarioModelo.php";
 
-        $data = array(
-            "registros"=>$_FILES['dataUsuario']
-        );
+    $data = array(
+      "registros"=>$_FILES['dataUsuario']
+    );
 
-        $respuesta = ModeloUsuario::mdlRegRegistrosUsuarios( $data );
+    $respuesta = ModeloUsuario::mdlRegRegistrosUsuarios( $data );
     echo $respuesta;
-    }  
+  }
+
+  static public function ctrEliArchivo(){
+    $directorio=$_POST["directorio"];
+    $archivo=$_POST["archivo"];
+
+    $ruta="../assest/dist/files/archivos/".$directorio."/".$archivo;
+
+    if(unlink($ruta)==false){
+      echo "error";
+    }else{
+      echo "ok";
+    }
+  }
 }

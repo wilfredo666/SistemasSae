@@ -16,6 +16,7 @@ if (isset($ruta["query"])) {
     $ruta["query"] == "ctrBusHerramienta" ||
     $ruta["query"] == "ctrRegPrestamoExt" ||
     $ruta["query"] == "ctrEliPrestamoExt" ||
+    $ruta["query"] == "ctrEliHerrCalibrada" ||
     $ruta["query"] == "ctrEliControlHerramienta"
   ) {
     $metodo = $ruta["query"];
@@ -569,24 +570,70 @@ class ControladorHerramientas
     echo $respuesta = ModeloControlHerramientas::mdlRegPrestamoExt($data);
 
   }
-  
+
   static public function ctrInfoPrestamoExt($id){
     $respuesta = ModeloControlHerramientas::mdlInfoPrestamoExt($id);
     return $respuesta;
   }
-  
+
   static public function ctrEliPrestamoExt(){
     require "../modelo/controlherramientasModelo.php";
-   $data = $_POST["id"];
+    $data = $_POST["id"];
 
     $respuesta = ModeloControlHerramientas::mdlEliPrestamoExt($data);
 
     echo $respuesta;
   }
-  
+
   static public function ctrInfoControlHerramientaPE($numCar){
     //adquiriendo info para prestamo externos segun su numero de carpeta
     $respuesta = ModeloControlHerramientas::mdlInfoControlHerramientaPE($numCar);
     return $respuesta;
+  }
+
+  //eliminar el mayor del prestamo herramientas calibradas
+  static public function ctrEliHerrCalibrada(){
+
+    require_once "../modelo/controlherramientasModelo.php";
+
+    // Validación del ID
+    if (!isset($_POST['id']) || empty($_POST['id'])) {
+      die("ID no válido");
+    }
+
+    $idMayor = $_POST['id']; // ID de mayor_herramientascalibradas
+
+    try {
+      // 1. Actualizar el stock
+      $infoHerrCal = ModeloControlHerramientas::mdlInfoUsuarioLog($idMayor);
+      $data_infoHerrCal = json_decode($infoHerrCal["detalle"], true); // Decodificando
+
+      // Verificar si la decodificación fue exitosa
+      if ($data_infoHerrCal === null && json_last_error() !== JSON_ERROR_NONE) {
+        throw new Exception("Error al decodificar JSON: " . json_last_error_msg());
+      }
+
+      foreach ($data_infoHerrCal as $item) { // Iterando
+        // Actualizando el stock
+        $id = $item["id"];
+        $cantidad = $item["cantidad"];
+        $actualizaResultado = ModeloControlHerramientas::mdlActualizaStock($id, $cantidad);
+        // Manejo de errores de actualización
+        if (!$actualizaResultado) {
+          throw new Exception("Error al actualizar stock para el ID: $id");
+        }
+      }
+
+      // 2. Eliminar el registro de mayor_herramientascalibradas
+      $respuesta = ModeloControlHerramientas::mdlEliHerrCalibrada($idMayor);
+      if (!$respuesta) {
+        throw new Exception("Error al eliminar el registro");
+      }
+      echo $respuesta;
+
+    } catch (Exception $e) {
+      echo "Se produjo un error: " . $e->getMessage();
+    }
+
   }
 }

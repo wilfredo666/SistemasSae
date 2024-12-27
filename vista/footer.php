@@ -70,6 +70,7 @@
 <script src="assest/js/basescz.js"></script>
 <script src="assest/js/inventario.js"></script>
 <script src="assest/js/graficaopen.js"></script>
+<script src="assest/js/noticia.js"></script>
 <!--<script src="assest/js/graficas/graficas.php"></script>
 <script src="assest/js/graficas/graficascpcp.php"></script>
 <script src="assest/js/graficas/graficastnrs.php"></script>-->
