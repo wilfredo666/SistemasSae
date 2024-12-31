@@ -66,6 +66,14 @@ function habilitado($idPermiso)
                 <li><a href="VLogDevolucion" class="dropdown-item">Log Devoluciones</a></li>
               </ul>
             </li>
+            
+                        <li class="nav-item dropdown dropdown-hover">
+              <a id="dropdownSubMenu3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Manuales</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a href="VManual" class="dropdown-item">Lista de Manuales</a></li>
+                <li><a href="" class="dropdown-item">Log Herramientas</a></li>
+              </ul>
+            </li>
             <?php } ?>
             <!--fin Herramientas Salientes Entrantes-->
 

@@ -21,6 +21,7 @@ require_once "controlador/baselpzControlador.php";
 require_once "controlador/basesczControlador.php";
 require_once "controlador/inventarioControlador.php";
 require_once "controlador/informeavanceControlador.php";
+require_once "controlador/manualControlador.php";
 
 /*modelos*/
 require_once "modelo/usuarioModelo.php";
@@ -43,6 +44,7 @@ require_once "modelo/basesczModelo.php";
 require_once "modelo/inventarioModelo.php";
 require_once "modelo/graficaModelo.php";
 require_once "modelo/informeavanceModelo.php";
+require_once "modelo/manualModelo.php";
 
 
 $plantilla=new ControladorPlantilla();

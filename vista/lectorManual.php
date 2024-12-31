@@ -1,7 +1,5 @@
 <?php
-require_once "conexion.php";
-echo $archivo = $_GET['archivo'];
-echo $ruta = $_GET['ruta'];
+$archivo = $_GET['archivo'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -43,13 +41,13 @@ echo $ruta = $_GET['ruta'];
         }
       }
     </style>
-    
   </head>
   <?php //bloquea click derecho        bloquea las opciones del teclado tales como f12, ctrl + u  ?>
   <body  oncontextmenu="return false" onkeydown="return false">
+   
     <div  class="contenedor">
 
-        <object data="<?php echo $ruta."/".$archivo?>"  type="application/PDF"  align="right">		
+        <object data="../assest/dist/files/manual/<?php echo $archivo?>"  type="application/PDF"  align="right">		
         </object>
    
       <!--bloqueo de las opciones del pdf-->
